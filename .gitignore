@@ -5,6 +5,7 @@
 .idea/
 .mvn/
 *.iml
+*.db
 bin/
 build/
 target/
