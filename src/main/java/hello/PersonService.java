@@ -20,18 +20,14 @@ public class PersonService {
     private PersonRepository repository;
 
     @NotNull
-    public Person getById(Long id) {
-        Person result = repository.findOne(id);
-        if (result == null) {
-            throw new ResourceNotFoundException("Person with id " + id + " not found");
-        }
-        return result;
-    }
-
-    @NotNull
     public CompletableFuture<Person> getByIdAsync(Long id) {
-        CompletableFuture<Person> future = repository.findOneById(id);
-        return future;
+        return repository.findOneById(id).
+                thenApplyAsync(person -> {
+                    if (person == null) {
+                        throw new ResourceNotFoundException("Person with ID = " + id + " does not exist");
+                    }
+                    return person;
+                });
     }
 
     @NotNull

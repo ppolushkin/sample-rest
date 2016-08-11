@@ -1,6 +1,5 @@
 package hello;
 
-import hello.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +28,6 @@ public class PersonController {
                     if (!result.isSetOrExpired()) {
                         if (exception != null) {
                             result.setErrorResult(exception);
-                        } else if (person == null) {
-                            result.setErrorResult(new ResourceNotFoundException());
                         } else {
                             result.setResult(person);
                         }
