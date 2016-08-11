@@ -21,9 +21,9 @@ public class AsyncPersonController {
     public
     @ResponseBody
     DeferredResult<List<Person>> getAllAsync() {
-        DeferredResult<List<Person>> result = new DeferredResult<>(10L);
+        DeferredResult<List<Person>> result = new DeferredResult<>();
         service.getAllAsync().
-                whenCompleteAsync(((persons, throwable) -> {
+                whenComplete(((persons, throwable) -> {
                     if (!result.isSetOrExpired()) {
                         if (throwable != null) {
                             result.setErrorResult(throwable);
@@ -39,9 +39,9 @@ public class AsyncPersonController {
     public
     @ResponseBody
     DeferredResult<Person> getAsyncById(@PathVariable Long id) {
-        DeferredResult<Person> result = new DeferredResult<>(500L);
+        DeferredResult<Person> result = new DeferredResult<>();
         service.getByIdAsync(id).
-                whenCompleteAsync((person, exception) -> {
+                whenComplete((person, exception) -> {
                     if (!result.isSetOrExpired()) {
                         if (exception != null) {
                             result.setErrorResult(exception);

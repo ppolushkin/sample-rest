@@ -32,7 +32,7 @@ public class PersonService {
     @NotNull
     public CompletableFuture<Person> getByIdAsync(Long id) {
         return repository.findOneById(id).
-                thenApplyAsync(person -> {
+                thenApply(person -> {
                     if (person == null) {
                         throw new ResourceNotFoundException("Person with ID = " + id + " does not exist");
                     }
