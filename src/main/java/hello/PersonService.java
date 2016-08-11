@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -18,6 +19,15 @@ public class PersonService {
 
     @Autowired
     private PersonRepository repository;
+
+    @NotNull
+    public Person getById(Long id) {
+        Person result = repository.findOne(id);
+        if (result == null) {
+            throw new ResourceNotFoundException("Person with id " + id + " not found");
+        }
+        return result;
+    }
 
     @NotNull
     public CompletableFuture<Person> getByIdAsync(Long id) {
@@ -35,6 +45,11 @@ public class PersonService {
         List<Person> res = new ArrayList<>();
         repository.findAll().forEach(res::add);
         return res;
+    }
+
+    @Null
+    public CompletableFuture<List<Person>> getAllAsync() {
+        return repository.findAllAsync();
     }
 
     @NotNull

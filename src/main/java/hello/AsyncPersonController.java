@@ -11,18 +11,35 @@ import java.util.List;
  * Created by pavel on 05.08.16.
  */
 @Controller
-@RequestMapping("/persons")
-public class PersonController {
+@RequestMapping("/async-persons")
+public class AsyncPersonController {
 
     @Autowired
     private PersonService service;
+
+    @RequestMapping(method = RequestMethod.GET)
+    public
+    @ResponseBody
+    DeferredResult<List<Person>> getAllAsync() {
+        DeferredResult<List<Person>> result = new DeferredResult<>(10L);
+        service.getAllAsync().
+                whenCompleteAsync(((persons, throwable) -> {
+                    if (!result.isSetOrExpired()) {
+                        if (throwable != null) {
+                            result.setErrorResult(throwable);
+                        } else {
+                            result.setResult(persons);
+                        }
+                    }
+                }));
+        return result;
+    }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     public
     @ResponseBody
     DeferredResult<Person> getAsyncById(@PathVariable Long id) {
         DeferredResult<Person> result = new DeferredResult<>(500L);
-
         service.getByIdAsync(id).
                 whenCompleteAsync((person, exception) -> {
                     if (!result.isSetOrExpired()) {
@@ -34,20 +51,6 @@ public class PersonController {
                     }
                 });
         return result;
-    }
-
-    @RequestMapping(method = RequestMethod.GET)
-    public
-    @ResponseBody
-    List<Person> getAll() {
-        return service.getAll();
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public
-    @ResponseBody
-    Person save(@RequestBody Person person) {
-        return service.save(person);
     }
 
 }
