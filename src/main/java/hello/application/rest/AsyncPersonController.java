@@ -1,5 +1,7 @@
-package hello;
+package hello.application.rest;
 
+import hello.domain.entity.Person;
+import hello.domain.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

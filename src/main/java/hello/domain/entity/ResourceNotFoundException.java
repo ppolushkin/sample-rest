@@ -1,4 +1,4 @@
-package hello.exception;
+package hello.domain.entity;
 
 /**
  * Created by pavel on 09.08.16.

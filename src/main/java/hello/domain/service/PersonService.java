@@ -1,6 +1,8 @@
-package hello;
+package hello.domain.service;
 
-import hello.exception.ResourceNotFoundException;
+import hello.domain.entity.Person;
+import hello.domain.repository.PersonRepository;
+import hello.domain.entity.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

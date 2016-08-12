@@ -1,5 +1,6 @@
-package hello.exception;
+package hello.application.rest;
 
+import hello.domain.entity.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

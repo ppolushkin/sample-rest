@@ -21,3 +21,7 @@ Testing of usual scenario REST call goes to database and return result
 |Label|# Samples|Average|Median|90% Line|95% Line|99% Line|Min|Max|Error %|Throughput|KB/sec|
 |Thread Group:HTTP Request|2000|6|4|12|19|40|2|134|0.00%|193.8|45.9|
 |TOTAL|2000|6|4|12|19|40|2|134|0.00%|193.8|45.9|
+
+
+https://api.vk.com/method/users.get?user_ids=clumsy.bear&fields=photo_50,city,verified,sex,%20bdate,interests&v=5.8
+
