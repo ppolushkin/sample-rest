@@ -47,7 +47,8 @@ public class BlockingPersonController {
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     public
     @ResponseBody
-    ApiPerson getById(@PathVariable Long id, @RequestParam(value = "extend", required = false) String extend) {
+    ApiPerson getById(@PathVariable Long id,
+                      @RequestParam(value = "extend", required = false) String extend) {
         Person person = service.getById(id);
         ApiPerson apiPerson = ApiPerson.of(person);
         if (extend == null || "true".equalsIgnoreCase(extend)) {

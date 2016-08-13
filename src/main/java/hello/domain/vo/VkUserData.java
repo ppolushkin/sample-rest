@@ -7,6 +7,8 @@ import java.util.List;
  */
 public class VkUserData {
 
+    private String vkId;
+
     private List<Response> response;
 
     public List<Response> getResponse() {
@@ -15,6 +17,14 @@ public class VkUserData {
 
     public void setResponse(List<Response> response) {
         this.response = response;
+    }
+
+    public String getVkId() {
+        return vkId;
+    }
+
+    public void setVkId(String vkId) {
+        this.vkId = vkId;
     }
 
     public static class Response {

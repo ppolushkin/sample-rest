@@ -10,18 +10,27 @@ Testing of usual scenario REST call goes to database and return result
 + 10 loops
 + 2 REST calls (get all users| get user by id)
 
-#### Async call to database see [AsyncPersonController](https://github.com/ppolushkin/sample-rest/blob/master/src/main/java/hello/AsyncPersonController.java)
+#### Async call to database
 
 |Label|# Samples|Average|Median|90% Line|95% Line|99% Line|Min|Max|Error %|Throughput|KB/sec|
 |---|---|---|---|---|---|---|---|---|---|---|---|
 |TOTAL|2000|571|491|1139|1306|2029|13|2902|0.00%|100.8|23.9|
 
-#### Blocking call to database see [BlockingPersonController](https://github.com/ppolushkin/sample-rest/blob/master/src/main/java/hello/BlockingPersonController.java)
+#### Blocking call to database
 
 |Label|# Samples|Average|Median|90% Line|95% Line|99% Line|Min|Max|Error %|Throughput|KB/sec|
 |---|---|---|---|---|---|---|---|---|---|---|---|
 |TOTAL|2000|6|4|12|19|40|2|134|0.00%|193.8|45.9|
 
 
-https://api.vk.com/method/users.get?user_ids=clumsy.bear&fields=photo_50,city,verified,sex,%20bdate,interests&v=5.8
+#### Blocking call to db and Sync vs Async external REST call
 
++ 50 users
++ 20 seconds for ramp-up
++ 4 loops
++ 8! external REST calls
+
+|Label|# Samples|Average|Median|90% Line|95% Line|99% Line|Min|Max|Error %|Throughput|KB/sec|
+|---|---|---|---|---|---|---|---|---|---|---|---|
+|async-persons|440|734|294|3200|3392|3704|112|4677|4.09%|.9|1.6|
+|blocking-persons|440|1471|1077|3790|4101|4488|570|7105|5.68%|1.0|1.6|
