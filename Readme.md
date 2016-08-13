@@ -25,12 +25,15 @@ Testing of usual scenario REST call goes to database and return result
 
 #### Blocking call to db and Sync vs Async external REST call
 
-+ 50 users
++ 100 users
 + 20 seconds for ramp-up
-+ 4 loops
-+ 8! external REST calls
++ 6 loops
++ 8 external REST calls (each call = 500ms)
++ database connection pool = 150
 
 |Label|# Samples|Average|Median|90% Line|95% Line|99% Line|Min|Max|Error %|Throughput|KB/sec|
 |---|---|---|---|---|---|---|---|---|---|---|---|
-|async-persons|440|734|294|3200|3392|3704|112|4677|4.09%|.9|1.6|
-|blocking-persons|440|1471|1077|3790|4101|4488|570|7105|5.68%|1.0|1.6|
+|blocking-persons|600|4951|4744|6015|6494|7119|4079|7342|0.00%|6.5|12.0|
+|async-persons FJP|600|625|618|687|699|727|539|836|0.00%|7.9|14.5|
+|async-persons cached_thread_pool|600|855|667|1350|1643|2372|547|13134|0.00%|7.0|12.8|
+

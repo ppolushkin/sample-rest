@@ -7,6 +7,10 @@ import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.ForkJoinPool;
+
+
 @SpringBootApplication
 @EnableAsync
 public class Application {
@@ -18,5 +22,10 @@ public class Application {
     @Bean
     public AsyncListenableTaskExecutor executor() {
         return new SimpleAsyncTaskExecutor();
+    }
+
+    @Bean
+    public Executor commonExecutor() {
+        return ForkJoinPool.commonPool();
     }
 }
