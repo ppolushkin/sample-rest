@@ -37,3 +37,15 @@ Testing of usual scenario REST call goes to database and return result
 |async-persons FJP|600|625|618|687|699|727|539|836|0.00%|7.9|14.5|
 |async-persons cached_thread_pool|600|855|667|1350|1643|2372|547|13134|0.00%|7.0|12.8|
 
+
+
+curl -H "Content-Type: application/json" -X POST -d '{"firstName":"Pavel", "vkId" : "clumsyBear"}' http://localhost:8080/blocking-persons
+curl -H "Content-Type: application/json" -X POST -d '{"firstName":"Anton", "vkId" : "jikan"}' http://localhost:8080/blocking-persons
+curl -H "Content-Type: application/json" -X POST -d '{"firstName":"Elena", "vkId" : "koshkin_hvost"}' http://localhost:8080/blocking-persons
+curl -H "Content-Type: application/json" -X POST -d '{"firstName":"Efim", "vkId" : "id60320309"}' http://localhost:8080/blocking-persons
+curl -H "Content-Type: application/json" -X POST -d '{"firstName":"Viktor", "vkId" : "id14070"}' http://localhost:8080/blocking-persons
+curl -H "Content-Type: application/json" -X POST -d '{"firstName":"Alex", "vkId" : "d.lyosha"}' http://localhost:8080/blocking-persons
+curl -H "Content-Type: application/json" -X POST -d '{"firstName":"Joel", "vkId" : "id275089593"}' http://localhost:8080/blocking-persons
+curl -H "Content-Type: application/json" -X POST -d '{"firstName":"Slava", "vkId" : "jasonrammoray"}' http://localhost:8080/blocking-persons
+curl -H "Content-Type: application/json" -X POST -d '{"firstName":"Katya", "vkId" : "going_slightly_mad"}' http://localhost:8080/blocking-persons
+curl -H "Content-Type: application/json" -X POST -d '{"firstName":"Viktor", "vkId" : "viktor_lapin"}' http://localhost:8080/blocking-persons

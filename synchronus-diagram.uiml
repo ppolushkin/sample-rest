@@ -1,0 +1,44 @@
+@startuml
+
+actor user
+box "Request Thread"
+participant "REST controller" as controller
+participant "REST client" as client
+end box
+
+participant "VK API" as vk
+
+user->controller: GET /blocking-users
+activate controller
+
+controller->client: load vk_user1
+activate client
+client->vk: GET /usr/1
+activate vk
+client<-vk: {vkUsr1}
+deactivate vk
+client->controller: vk_user1
+deactivate client
+
+controller->client: load vk_user2
+activate client
+client->vk: GET /usr/2
+activate vk
+client<-vk: {vkUsr2}
+deactivate vk
+client->controller: vk_user2
+deactivate client
+
+controller->client: load vk_user3
+activate client
+client->vk: GET /usr/3
+activate vk
+client<-vk: {vkUsr3}
+deactivate vk
+client->controller: vk_user3
+deactivate client
+
+controller->user: [{user1,...,user10}]
+deactivate controller
+
+@enduml
