@@ -19,7 +19,4 @@ public interface VkClient {
     @NotNull
     CompletableFuture<VkUserData> getUserDataAsync(String vkId);
 
-    @NotNull
-    CompletableFuture<VkUserData> getUserDataAsyncV2(String vkId);
-
 }
