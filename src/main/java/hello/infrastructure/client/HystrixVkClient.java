@@ -5,11 +5,11 @@ import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.HystrixCommandProperties;
 import com.netflix.hystrix.HystrixThreadPoolProperties;
 import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
-import hello.domain.client.VkClient;
+import hello.domain.client.AsyncVkClient;
 import hello.domain.vo.VkUserData;
 import net.javacrumbs.futureconverter.java8rx.FutureConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -24,16 +24,11 @@ import java.util.logging.Logger;
  * Created by pavel on 12.08.16.
  */
 @Component
-public class HystrixVkClient implements VkClient {
+@Qualifier(value = "hystrixVkClient")
+public class HystrixVkClient implements AsyncVkClient {
 
     private static final Logger logger = Logger.getLogger(HystrixVkClient.class.getName());
 
-    private final static String URL = "https://api.vk.com/method/users.get?user_ids=%s&fields=photo_50,city,verified,sex,bdate,interests&v=5.8";
-//    private final static String URL = "http://localhost:9000/mock-person/";
-
-    private final static int CONNECTION_TIMEOUT = 1000;
-
-    private final static int READ_TIMEOUT = 3500;
 
     @Autowired
     private AsyncListenableTaskExecutor executor;
@@ -41,12 +36,6 @@ public class HystrixVkClient implements VkClient {
     @Autowired
     private Executor commonExecutor;
 
-    @Override
-    @Nullable
-    public VkUserData getUserData(String vkId) {
-        CommandVkCall commandVkCall = new CommandVkCall(vkId);
-        return commandVkCall.execute();
-    }
 
     @Override
     @NotNull
@@ -99,7 +88,7 @@ public class HystrixVkClient implements VkClient {
                             withExecutionTimeoutInMilliseconds(4500)
                     ).
                     andThreadPoolPropertiesDefaults(HystrixThreadPoolProperties.Setter().
-                            withCoreSize((50 * 10 + 100) /3).withMaxQueueSize(50 * 10 + 100).withQueueSizeRejectionThreshold(50 * 10 + 100)
+                            withCoreSize((50 * 10 + 100) / 3).withMaxQueueSize(50 * 10 + 100).withQueueSizeRejectionThreshold(50 * 10 + 100)
                     ));
             this.vkId = vkId;
         }

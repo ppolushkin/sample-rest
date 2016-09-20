@@ -1,28 +1,22 @@
 package hello.domain.client;
 
 import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import hello.domain.vo.VkUserData;
-import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Created by pavel on 12.08.16.
+ * Created by pavel on 21.09.16.
  */
-@Component
-public interface VkClient {
+public interface AsyncVkClient {
 
     String URL = "https://api.vk.com/method/users.get?user_ids=%s&fields=photo_50,city,verified,sex,bdate,interests&v=5.8";
-//    private final static String URL = "http://localhost:9000/mock-person/";
 
     int CONNECTION_TIMEOUT = 1000;
 
     int READ_TIMEOUT = 3500;
 
-
-    @Nullable
-    VkUserData getUserData(String vkId);
-
+    @NotNull
+    CompletableFuture<VkUserData> getUserDataAsync(String vkId);
 
 }

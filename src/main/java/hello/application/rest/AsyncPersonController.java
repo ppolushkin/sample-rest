@@ -1,10 +1,12 @@
 package hello.application.rest;
 
 import hello.application.vo.ApiPerson;
+import hello.domain.client.AsyncVkClient;
 import hello.domain.client.VkClient;
 import hello.domain.entity.Person;
 import hello.domain.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
@@ -25,7 +27,8 @@ public class AsyncPersonController {
     private PersonService service;
 
     @Autowired
-    private VkClient vkClient;
+    @Qualifier(value = "apacheVkClient")
+    private AsyncVkClient vkClient;
 
     @RequestMapping(method = RequestMethod.GET)
     public
