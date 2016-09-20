@@ -24,9 +24,9 @@ import java.util.logging.Logger;
  * Created by pavel on 12.08.16.
  */
 @Component
-public class VkClientImpl implements VkClient {
+public class HystrixVkClient implements VkClient {
 
-    private static final Logger logger = Logger.getLogger(VkClientImpl.class.getName());
+    private static final Logger logger = Logger.getLogger(HystrixVkClient.class.getName());
 
     private final static String URL = "https://api.vk.com/method/users.get?user_ids=%s&fields=photo_50,city,verified,sex,bdate,interests&v=5.8";
 //    private final static String URL = "http://localhost:9000/mock-person/";

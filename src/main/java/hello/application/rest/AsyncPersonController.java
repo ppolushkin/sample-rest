@@ -43,11 +43,11 @@ public class AsyncPersonController {
 
         if (extend == null || "true".equalsIgnoreCase(extend)) {
 
-            Set<CompletableFuture<ApiPerson>> futures = apiPersons.stream().
+            List<CompletableFuture<ApiPerson>> futures = apiPersons.stream().
                     map(apiPerson1 -> vkClient.
                             getUserDataAsync(apiPerson1.getVkId()).
                             thenApplyAsync(apiPerson1::enrich)).
-                    collect(Collectors.toSet());
+                    collect(Collectors.toList());
 
             @SuppressWarnings("unchecked")
             CompletableFuture<ApiPerson>[] array = (CompletableFuture<ApiPerson>[]) new CompletableFuture[futures.size()];
