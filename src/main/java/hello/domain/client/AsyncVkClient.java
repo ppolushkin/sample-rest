@@ -6,6 +6,7 @@ import hello.domain.vo.VkUserData;
 import java.util.concurrent.CompletableFuture;
 
 /**
+ *
  * Created by pavel on 21.09.16.
  */
 public interface AsyncVkClient {

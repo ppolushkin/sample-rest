@@ -7,7 +7,9 @@ import hello.domain.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.List;
@@ -15,18 +17,18 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
+ * Implementation like on Diagram-3
  * Created by pavel on 05.08.16.
  */
 @Controller
-@RequestMapping("/smart-async-persons")
-public class SmartAsyncPersonController {
+@RequestMapping("/non-blocking-async-persons-with-apache")
+public class NonBlockingAsyncPersonController {
 
     @Autowired
     private PersonService service;
 
     @Autowired
     @Qualifier(value = "apacheVkClient")
-//    @Qualifier(value = "dummyVkClient")
     private AsyncVkClient vkClient;
 
     @RequestMapping(method = RequestMethod.GET)
@@ -52,7 +54,7 @@ public class SmartAsyncPersonController {
         futures.toArray(array);
 
         CompletableFuture.allOf(array).
-                whenComplete(((aVoid, throwable) -> {
+                whenComplete(((aVoid, throwable) -> { //Non-blocking!
                     if (!result.isSetOrExpired()) {
                         if (throwable != null) {
                             result.setErrorResult(throwable);
@@ -61,41 +63,6 @@ public class SmartAsyncPersonController {
                         }
                     }
                 }));
-
-        return result;
-    }
-
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    DeferredResult<ApiPerson> getAsyncById(
-            @PathVariable Long id,
-            @RequestParam(value = "extend", required = false) String extend) {
-        DeferredResult<ApiPerson> result = new DeferredResult<>();
-
-        try {
-            Person person = service.getById(id);
-            ApiPerson apiPerson = ApiPerson.of(person);
-
-            if (extend == null || "true".equalsIgnoreCase(extend)) {
-                vkClient.getUserDataAsync(person.getVkId()).
-                        whenComplete((((vkUserData, throwable) -> {
-                            if (!result.isSetOrExpired()) {
-                                if (throwable != null) {
-                                    result.setErrorResult(throwable);
-                                } else {
-                                    apiPerson.enrich(vkUserData);
-                                    result.setResult(apiPerson);
-                                }
-                            }
-                        })));
-            } else {
-                result.setResult(apiPerson);
-            }
-
-        } catch (Throwable throwable) {
-            result.setErrorResult(throwable);
-        }
 
         return result;
     }

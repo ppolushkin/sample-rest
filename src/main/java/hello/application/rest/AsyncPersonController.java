@@ -20,26 +20,44 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 /**
+ *
  * Created by pp on 23.09.2016.
  */
 @Controller
-@RequestMapping("/dummy-async-persons")
-public class DummyAsyncPersonController {
+public class AsyncPersonController {
 
     @Autowired
     private PersonService service;
 
     @Autowired
+    @Qualifier(value = "dummyVkClient")
+    private AsyncVkClient dummyVkClient;
+
+    @Autowired
     @Qualifier(value = "apacheVkClient")
-//    @Qualifier(value = "dummyVkClient")
-    private AsyncVkClient vkClient;
+    private AsyncVkClient apacheVkClient;
 
-
-    @RequestMapping(method = RequestMethod.GET)
+    /**
+     * Implementation like on Diagram-1
+     */
+    @RequestMapping(value = "/async-persons", method = RequestMethod.GET)
     public
     @ResponseBody
-    List<ApiPerson> getAll() {
+    List<ApiPerson> getAsyncPersons1() {
+        return getAllAsync(dummyVkClient);
+    }
 
+    /**
+     * Implementation like on Diagram-2
+     */
+    @RequestMapping(value = "/async-persons-with-apache", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    List<ApiPerson> getAsyncPersons2() {
+        return getAllAsync(apacheVkClient);
+    }
+
+    private List<ApiPerson> getAllAsync(AsyncVkClient asyncVkClient) {
         List<Person> persons = service.getAll();
         List<ApiPerson> apiPersons = new ArrayList<>(persons.size());
 
@@ -47,7 +65,7 @@ public class DummyAsyncPersonController {
 
         for (Person person : persons) {
             ApiPerson apiPerson = ApiPerson.of(person);
-            CompletableFuture<VkUserData> vkUserData = vkClient.getUserDataAsync(person.getVkId());
+            CompletableFuture<VkUserData> vkUserData = asyncVkClient.getUserDataAsync(person.getVkId());
 
             futureMap.put(person.getId(), vkUserData);
             apiPersons.add(apiPerson);

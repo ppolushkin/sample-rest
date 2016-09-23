@@ -7,17 +7,22 @@ import hello.domain.service.PersonService;
 import hello.domain.vo.VkUserData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Implementation like on Diagram-0
+ * <p>
  * Created by pavel on 12.08.16.
  */
 @Controller
-@RequestMapping("/blocking-persons")
-public class BlockingPersonController {
+@RequestMapping("/persons")
+public class PersonController {
 
     @Autowired
     private PersonService service;
@@ -28,34 +33,17 @@ public class BlockingPersonController {
     @RequestMapping(method = RequestMethod.GET)
     public
     @ResponseBody
-    List<ApiPerson> getAll(@RequestParam(value = "extend", required = false) String extend) {
+    List<ApiPerson> getUsers() {
         List<Person> persons = service.getAll();
         List<ApiPerson> apiPersons = new ArrayList<>(persons.size());
+
         for (Person person : persons) {
             ApiPerson apiPerson = ApiPerson.of(person);
-
-            if (extend == null || "true".equalsIgnoreCase(extend)) {
-                VkUserData vkUserData = vkClient.getUserData(person.getVkId());
-                apiPerson.enrich(vkUserData);
-            }
-
+            VkUserData vkUserData = vkClient.getUserData(person.getVkId());
+            apiPerson.enrich(vkUserData);
             apiPersons.add(apiPerson);
         }
         return apiPersons;
-    }
-
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    ApiPerson getById(@PathVariable Long id,
-                      @RequestParam(value = "extend", required = false) String extend) {
-        Person person = service.getById(id);
-        ApiPerson apiPerson = ApiPerson.of(person);
-        if (extend == null || "true".equalsIgnoreCase(extend)) {
-            VkUserData vkUserData = vkClient.getUserData(person.getVkId());
-            apiPerson.enrich(vkUserData);
-        }
-        return apiPerson;
     }
 
     @RequestMapping(method = RequestMethod.POST)

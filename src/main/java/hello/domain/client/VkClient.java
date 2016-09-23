@@ -14,8 +14,6 @@ import java.util.concurrent.CompletableFuture;
 public interface VkClient {
 
     String URL = "https://api.vk.com/method/users.get?user_ids=%s&fields=photo_50,city,verified,sex,bdate,interests&v=5.8";
-//    private final static String URL = "http://localhost:9000/mock-person/";
-
 
     @Nullable
     VkUserData getUserData(String vkId);

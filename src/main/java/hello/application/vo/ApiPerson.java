@@ -4,6 +4,7 @@ import hello.domain.entity.Person;
 import hello.domain.vo.VkUserData;
 
 /**
+ *
  * Created by pavel on 12.08.16.
  */
 public class ApiPerson {

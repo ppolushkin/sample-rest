@@ -1,4 +1,4 @@
-package hello.application.rest;
+package hello.application;
 
 import hello.domain.entity.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
