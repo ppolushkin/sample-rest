@@ -24,9 +24,8 @@ activate client2
 controller->client3
 activate client3
 
-deactivate controller
 
-||100||
+||50||
 
 controller<-client1
 deactivate client1
@@ -38,9 +37,8 @@ controller<-client3
 deactivate client3
 
 
-deactivate controller
-
 controller->user: [{user1,...,user10}]
+deactivate controller
 
 
 @enduml

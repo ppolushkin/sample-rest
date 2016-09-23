@@ -8,13 +8,7 @@ end box
 
 box "Thread 1"
 participant "REST client" as client1
-end box
-
-box "Thread 2"
 participant "REST client" as client2
-end box
-
-box "Thread 3"
 participant "REST client" as client3
 end box
 
