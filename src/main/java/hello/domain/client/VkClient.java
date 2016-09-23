@@ -16,10 +16,6 @@ public interface VkClient {
     String URL = "https://api.vk.com/method/users.get?user_ids=%s&fields=photo_50,city,verified,sex,bdate,interests&v=5.8";
 //    private final static String URL = "http://localhost:9000/mock-person/";
 
-    int CONNECTION_TIMEOUT = 1000;
-
-    int READ_TIMEOUT = 3500;
-
 
     @Nullable
     VkUserData getUserData(String vkId);

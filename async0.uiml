@@ -1,0 +1,48 @@
+@startuml
+
+actor user
+
+box "Request Thread"
+participant "REST controller" as controller
+end box
+
+box "Thread 1"
+participant "REST client" as client1
+end box
+
+box "Thread 2"
+participant "REST client" as client2
+end box
+
+box "Thread 3"
+participant "REST client" as client3
+end box
+
+user->controller: GET /blocking-users
+activate controller
+
+controller->client1
+activate client1
+
+controller->client2
+activate client2
+
+controller->client3
+activate client3
+
+||50||
+
+controller<-client1
+deactivate client1
+
+controller<-client2
+deactivate client2
+
+controller<-client3
+deactivate client3
+
+controller->user: [{user1,...,user10}]
+
+deactivate controller
+
+@enduml

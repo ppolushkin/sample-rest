@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.concurrent.CompletionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by pavel on 09.08.16.
@@ -15,10 +17,9 @@ import java.util.concurrent.CompletionException;
 @ControllerAdvice
 public class ExceptionMapper {
 
-    @ExceptionHandler(Exception.class)
-    public
-    @ResponseBody
-    ResponseEntity<ErrorMessage> handle(Exception exception) {
+    private static final Logger logger = Logger.getLogger(ExceptionMapper.class.getName());
+
+    @ExceptionHandler(Exception.class) public @ResponseBody ResponseEntity<ErrorMessage> handle(Exception exception) {
         if (exception instanceof CompletionException) {
             return handleInternally(exception.getCause());
         } else {
@@ -27,6 +28,7 @@ public class ExceptionMapper {
     }
 
     private ResponseEntity<ErrorMessage> handleInternally(Throwable throwable) {
+        logger.log(Level.SEVERE, "", throwable);
         if (throwable instanceof ResourceNotFoundException) {
             return new ResponseEntity<>(new ErrorMessage(204, "Resource not found", throwable.getLocalizedMessage()), HttpStatus.NO_CONTENT);
         } else {
