@@ -1,0 +1,6 @@
+---
+applications:
+- name: sample-rest
+  memory: 256M
+  instances: 1
+  path: target/gs-accessing-data-rest-1.0.jar
